@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Category } from '../../types/category.type';
 import { CategoryService } from '../../services/category.service';
 
@@ -10,13 +10,19 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './sidenavigation.component.scss',
 })
 export class SidenavigationComponent {
-  categoreis: Category[] = [];
+  categories: Category[] = [];
 
   constructor(categoryService: CategoryService) {
-    this.categoreis = categoryService.getAllCategories();
+    categoryService.getAllCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
-  getCategoires(parent_category_id?: number): Category[] {
-    return this.categoreis.filter((category) => category.parent_category_id === parent_category_id);
+  getCategories(parentCategoryId?: number): Category[] {
+    return this.categories.filter((category) =>
+      parentCategoryId
+        ? category.parentCategory?.id === parentCategoryId
+        : category.parentCategory === null
+    );
   }
 }

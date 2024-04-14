@@ -4,6 +4,7 @@ import lewocz.estorebackend.model.Category;
 import lewocz.estorebackend.model.Product;
 import lewocz.estorebackend.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

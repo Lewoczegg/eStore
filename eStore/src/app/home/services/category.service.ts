@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../types/category.type';
-import { categories } from '../sampleData/category.data';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
-  getAllCategories(): Category[] {
-    return categories;
+  getAllCategories(): Observable<Category[]> {
+    return this.httpClient.get<Category[]>('http://localhost:8080/category');
   }
 }
