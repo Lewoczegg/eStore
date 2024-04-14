@@ -1,7 +1,11 @@
-export interface ProductListItem {
+import { Category } from '../../types/category.type';
+
+export interface Product {
   id: number;
-  product_name: string;
-  product_img: string;
+  productName: string;
+  productImg: string;
   price: number;
   ratings: number;
+  productDescription: string;
+  category: Category;
 }
