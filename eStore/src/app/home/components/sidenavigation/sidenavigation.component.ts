@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Category } from '../../types/category.type';
-import { CategoryService } from '../../services/category.service';
+import { Subscription } from 'rxjs';
+import { CategoriesStoreItem } from '../../services/categories.storeItem';
 
 @Component({
   selector: 'app-sidenavigation',
@@ -9,13 +10,17 @@ import { CategoryService } from '../../services/category.service';
   templateUrl: './sidenavigation.component.html',
   styleUrl: './sidenavigation.component.scss',
 })
-export class SidenavigationComponent {
+export class SidenavigationComponent implements OnDestroy {
   categories: Category[] = [];
 
-  constructor(categoryService: CategoryService) {
-    categoryService.getAllCategories().subscribe((categories) => {
-      this.categories = categories;
-    });
+  subscriptions: Subscription = new Subscription();
+
+  constructor(categoryStore: CategoriesStoreItem) {
+    this.subscriptions.add(
+      categoryStore.categories$.subscribe((categories) => {
+        this.categories = categories;
+      })
+    );
   }
 
   getCategories(parentCategoryId?: number): Category[] {
@@ -24,5 +29,9 @@ export class SidenavigationComponent {
         ? category.parentCategory?.id === parentCategoryId
         : category.parentCategory === null
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
