@@ -4,8 +4,8 @@ import lewocz.estorebackend.model.Category;
 import lewocz.estorebackend.model.Product;
 import lewocz.estorebackend.service.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,8 +20,18 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(
+            @RequestParam(required = false) Integer subCategoryId,
+            @RequestParam(required = false) Integer mainCategoryId
+    ) {
+        List<Product> products;
+        if(mainCategoryId != null) {
+            products = productService.getAllProductsByMainCategoryId(mainCategoryId);
+        } else if (subCategoryId != null) {
+            products = productService.getAllProductsBySubCategoryId(subCategoryId);
+        } else {
+            products = productService.getAllProducts();
+        }
         return ResponseEntity.ok(products);
     }
 

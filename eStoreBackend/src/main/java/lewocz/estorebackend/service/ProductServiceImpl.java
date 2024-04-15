@@ -7,6 +7,7 @@ import lewocz.estorebackend.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -27,5 +28,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getAllProductsByMainCategoryId(int mainCategoryId) {
+        Optional<Category> category = categoryRepository.findById(mainCategoryId);
+
+        if (category.isEmpty()) {
+            throw new IllegalArgumentException("Category with id " + mainCategoryId + " not found");
+        }
+
+        return productRepository.findByCategoryParentCategoryId(mainCategoryId);
+    }
+
+    @Override
+    public List<Product> getAllProductsBySubCategoryId(int subCategoryId) {
+        Optional<Category> category = categoryRepository.findById(subCategoryId);
+
+        if (category.isEmpty()) {
+            throw new IllegalArgumentException("Category with id " + subCategoryId + " not found");
+        }
+
+        return productRepository.findByCategory(category.get());
     }
 }
