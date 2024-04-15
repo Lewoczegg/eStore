@@ -24,6 +24,7 @@ export class RatingsComponent {
   private _score: number = 0;
   @Input()
   set score(val: number) {
+    this.stars = [];
     this._score = val > 5 ? 5 : val;
     const solidStarCount = Math.floor(this._score);
     for (let i: number = 0; i < solidStarCount; i++) {
