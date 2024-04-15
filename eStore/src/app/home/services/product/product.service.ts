@@ -9,7 +9,11 @@ import { Observable } from 'rxjs';
 export class ProductService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>('http://localhost:8080/product');
+  getAllProducts(query?: string): Observable<Product[]> {
+    let url = 'http://localhost:8080/product';
+    if (query) {
+      url += '?' + query;
+    }
+    return this.httpClient.get<Product[]>(url);
   }
 }
