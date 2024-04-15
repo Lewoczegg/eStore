@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { StoreItem } from '../../shared/storeItem';
+import { StoreItem } from '../../../shared/storeItem';
 import { CategoryService } from './category.service';
 import { Observable, map } from 'rxjs';
-import { Category } from '../types/category.type';
+import { Category } from '../../types/category.type';
 
 @Injectable()
 export class CategoriesStoreItem extends StoreItem<Category[]> {

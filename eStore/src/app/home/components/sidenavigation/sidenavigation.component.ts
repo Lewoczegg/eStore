@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Category } from '../../types/category.type';
 import { Subscription } from 'rxjs';
-import { CategoriesStoreItem } from '../../services/categories.storeItem';
+import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 
 @Component({
   selector: 'app-sidenavigation',

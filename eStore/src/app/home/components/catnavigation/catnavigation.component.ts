@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoriesStoreItem } from '../../services/categories.storeItem';
+import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

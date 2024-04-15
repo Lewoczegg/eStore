@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Product } from './product.type';
+import { Product } from '../../types/product.type';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
   constructor(private httpClient: HttpClient) {}
 

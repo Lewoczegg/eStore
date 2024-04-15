@@ -1,5 +1,5 @@
 <div class="main-product-container">
-  @for (product of products; track $index) {
+  @for (product of productsStoreItem.products$ | async; track $index) {
   <div class="mx-5 p-3 product-card">
     <div class="product-image-container">
       <img [src]="'../../../../assets/images/' + product.productImg" alt="" />

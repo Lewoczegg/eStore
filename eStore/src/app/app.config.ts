@@ -3,8 +3,14 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { CategoriesStoreItem } from './home/services/categories.storeItem';
+import { CategoriesStoreItem } from './home/services/category/categories.storeItem';
+import { ProductsStoreItem } from './home/services/product/products.storeItem';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(), CategoriesStoreItem],
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    CategoriesStoreItem,
+    ProductsStoreItem,
+  ],
 };
