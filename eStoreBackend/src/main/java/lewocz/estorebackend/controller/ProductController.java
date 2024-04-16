@@ -26,21 +26,18 @@ public class ProductController {
             @RequestParam(required = false) String keyword
     ) {
         List<Product> products;
+
         if (subCategoryId != null) {
             if (keyword != null) {
                 products = productService.getProductsBySubCategoryIdAndKeyword(subCategoryId, keyword);
             } else {
-                System.out.println("sub");
                 products = productService.getAllProductsBySubCategoryId(subCategoryId);
             }
         } else if (mainCategoryId != null) {
             if (keyword != null) {
                 products = productService.getProductsByMainCategoryIdAndKeyword(mainCategoryId, keyword);
-
             } else {
-                System.out.println("main");
                 products = productService.getAllProductsByMainCategoryId(mainCategoryId);
-
             }
         } else {
             if (keyword != null) {
@@ -50,7 +47,6 @@ public class ProductController {
             }
         }
 
-        System.out.println(products.toString());
         return ResponseEntity.ok(products);
     }
 
