@@ -10,4 +10,7 @@ public interface ProductService {
     List<Category> getAllCategories();
     List<Product> getAllProductsByMainCategoryId(int categoryId);
     List<Product> getAllProductsBySubCategoryId(int categoryId);
+    List<Product> getProductsByMainCategoryIdAndKeyword(int mainCategoryId, String keyword);
+    List<Product> getProductsBySubCategoryIdAndKeyword(int subCategoryId, String keyword);
+    List<Product> getProductsByPartialKeyword(String keyword);
 }

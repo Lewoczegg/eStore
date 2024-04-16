@@ -28,6 +28,9 @@ public class Product {
     @Column(name = "product_img")
     private String productImg;
 
+    @Column(name = "keywords")
+    private String keywords;
+
     public int getId() {
         return id;
     }
@@ -82,5 +85,13 @@ public class Product {
 
     public void setProductImg(String productImg) {
         this.productImg = productImg;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 }

@@ -51,4 +51,31 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findByCategory(category.get());
     }
+
+    @Override
+    public List<Product> getProductsByMainCategoryIdAndKeyword(int mainCategoryId, String keyword) {
+        Optional<Category> category = categoryRepository.findById(mainCategoryId);
+
+        if (category.isEmpty()) {
+            throw new IllegalArgumentException("Category with id " + mainCategoryId + " not found");
+        }
+
+        return productRepository.findByMainCategoryIdAndKeyword(mainCategoryId, keyword);
+    }
+
+    @Override
+    public List<Product> getProductsBySubCategoryIdAndKeyword(int subCategoryId, String keyword) {
+        Optional<Category> category = categoryRepository.findById(subCategoryId);
+
+        if (category.isEmpty()) {
+            throw new IllegalArgumentException("Category with id " + subCategoryId + " not found");
+        }
+
+        return productRepository.findBySubCategoryIdAndKeyword(subCategoryId, keyword);
+    }
+
+    @Override
+    public List<Product> getProductsByPartialKeyword(String keyword) {
+        return productRepository.findByKeywordsContaining(keyword);
+    }
 }

@@ -22,16 +22,35 @@ public class ProductController {
     @GetMapping("/product")
     public ResponseEntity<List<Product>> getAllProducts(
             @RequestParam(required = false) Integer subCategoryId,
-            @RequestParam(required = false) Integer mainCategoryId
+            @RequestParam(required = false) Integer mainCategoryId,
+            @RequestParam(required = false) String keyword
     ) {
         List<Product> products;
-        if(mainCategoryId != null) {
-            products = productService.getAllProductsByMainCategoryId(mainCategoryId);
-        } else if (subCategoryId != null) {
-            products = productService.getAllProductsBySubCategoryId(subCategoryId);
+        if (subCategoryId != null) {
+            if (keyword != null) {
+                products = productService.getProductsBySubCategoryIdAndKeyword(subCategoryId, keyword);
+            } else {
+                System.out.println("sub");
+                products = productService.getAllProductsBySubCategoryId(subCategoryId);
+            }
+        } else if (mainCategoryId != null) {
+            if (keyword != null) {
+                products = productService.getProductsByMainCategoryIdAndKeyword(mainCategoryId, keyword);
+
+            } else {
+                System.out.println("main");
+                products = productService.getAllProductsByMainCategoryId(mainCategoryId);
+
+            }
         } else {
-            products = productService.getAllProducts();
+            if (keyword != null) {
+                products = productService.getProductsByPartialKeyword(keyword);
+            } else {
+                products = productService.getAllProducts();
+            }
         }
+
+        System.out.println(products.toString());
         return ResponseEntity.ok(products);
     }
 
