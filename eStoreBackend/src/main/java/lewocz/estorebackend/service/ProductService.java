@@ -13,4 +13,5 @@ public interface ProductService {
     List<Product> getProductsByMainCategoryIdAndKeyword(int mainCategoryId, String keyword);
     List<Product> getProductsBySubCategoryIdAndKeyword(int subCategoryId, String keyword);
     List<Product> getProductsByPartialKeyword(String keyword);
+    Product getProductById(int id);
 }

@@ -78,4 +78,15 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByPartialKeyword(String keyword) {
         return productRepository.findByKeywordsContaining(keyword);
     }
+
+    @Override
+    public Product getProductById(int id) {
+        Optional<Product> product = productRepository.findById(id);
+
+        if (product.isEmpty()) {
+            throw new IllegalArgumentException("Product with id " + id + " not found");
+        }
+
+        return product.get();
+    }
 }
