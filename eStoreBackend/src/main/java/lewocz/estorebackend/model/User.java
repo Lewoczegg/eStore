@@ -18,6 +18,7 @@ public class User {
     private String email;
     
     @Column(name = "firstName", length = 45)
+    @NotNull
     private String firstName;
     
     @Column(name = "lastName", length = 45)

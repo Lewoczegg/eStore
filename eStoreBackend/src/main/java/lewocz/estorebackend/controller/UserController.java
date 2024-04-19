@@ -1,6 +1,7 @@
 package lewocz.estorebackend.controller;
 
 import jakarta.validation.Valid;
+import lewocz.estorebackend.dto.SignUpResponse;
 import lewocz.estorebackend.model.User;
 import lewocz.estorebackend.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody User user) {
+    public ResponseEntity<SignUpResponse> signup(@Valid @RequestBody User user) {
         userService.registerUser(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+        SignUpResponse signUpResponse = new SignUpResponse("success");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(signUpResponse);
     }
 }
