@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { RatingsComponent } from '../ratings/ratings.component';
 import { ProductsStoreItem } from '../../services/product/products.storeItem';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CurrencyPipe, RatingsComponent, AsyncPipe],
+  imports: [CurrencyPipe, RatingsComponent, AsyncPipe, RouterModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })

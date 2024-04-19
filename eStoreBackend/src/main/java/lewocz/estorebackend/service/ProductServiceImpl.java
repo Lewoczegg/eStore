@@ -80,11 +80,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(int id) {
-        Optional<Product> product = productRepository.findById(id);
+    public Product getProductById(int productId) {
+        Optional<Product> product = productRepository.findById(productId);
 
         if (product.isEmpty()) {
-            throw new IllegalArgumentException("Product with id " + id + " not found");
+            throw new IllegalArgumentException("Product with id " + productId + " not found");
         }
 
         return product.get();

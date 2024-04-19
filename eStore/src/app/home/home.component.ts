@@ -5,6 +5,8 @@ import { SidenavigationComponent } from './components/sidenavigation/sidenavigat
 import { ProductsComponent } from './components/products/products.component';
 import { CategoriesStoreItem } from './services/category/categories.storeItem';
 import { ProductsStoreItem } from './services/product/products.storeItem';
+import { RouterModule } from '@angular/router';
+import { SearchKeyword } from './types/searchKeyword.type';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,7 @@ import { ProductsStoreItem } from './services/product/products.storeItem';
     CatnavigationComponent,
     SidenavigationComponent,
     ProductsComponent,
+    RouterModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -27,11 +30,16 @@ export class HomeComponent {
     this.productsStoreItem.loadProducts();
   }
 
-  onSelectSubCategory(subCategoryId: number): void {
-    this.productsStoreItem.loadProducts('subCategoryId=' + subCategoryId);
-  }
-
   onSelectCategory(categoryId: number): void {
     this.productsStoreItem.loadProducts('mainCategoryId=' + categoryId);
+  }
+
+  onSearchKeyword(searchKeyword: SearchKeyword): void {
+    this.productsStoreItem.loadProducts(
+      'mainCategoryId=' +
+        searchKeyword.categoryId +
+        '&keyword=' +
+        searchKeyword.keyword
+    );
   }
 }
