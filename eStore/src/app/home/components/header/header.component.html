@@ -32,7 +32,11 @@
       <h5><a href="#">Register</a></h5>
     </div>
     <div class="cart-wishlist p-0 list-item">
-      <button type="button" class="btn btn-dark position-relative">
+      <button
+        type="button"
+        class="btn btn-dark position-relative"
+        (click)="navigateToCart()"
+      >
         <fa-icon [icon]="faShoppingCart"></fa-icon>
         <ng-container *ngIf="cartStoreItem.cart$ | async as cart">
           @if(cart.totalProducts > 0) {

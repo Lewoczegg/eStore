@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProductsGalleryComponent } from './home/components/products-gallery/products-gallery.component';
 import { ProductdetailsComponent } from './home/components/productdetails/productdetails.component';
+import { CartComponent } from './home/components/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,7 @@ export const routes: Routes = [
     children: [
       { path: 'products', component: ProductsGalleryComponent },
       { path: 'product/:id', component: ProductdetailsComponent },
+      { path: 'cart', component: CartComponent },
     ],
   },
   { path: '', redirectTo: '/home/products', pathMatch: 'full' },
