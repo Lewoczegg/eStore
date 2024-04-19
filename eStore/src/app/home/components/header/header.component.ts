@@ -1,6 +1,6 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faSearch,
@@ -15,7 +15,7 @@ import { CartStoreItem } from '../../services/cart/cart.storeItems';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FontAwesomeModule, AsyncPipe, CommonModule],
+  imports: [FontAwesomeModule, AsyncPipe, CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
