@@ -1,4 +1,4 @@
-package lewocz.estorebackend.model;
+package lewocz.estorebackend.dto;
 
 public class ApiErrorResponse {
     private int errorCode;
