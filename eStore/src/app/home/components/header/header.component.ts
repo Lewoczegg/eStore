@@ -1,20 +1,21 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faSearch,
-  faUserCircle,
   faShoppingCart,
+  faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
-import { AsyncPipe } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 import { SearchKeyword } from '../../types/searchKeyword.type';
+import { CartStoreItem } from '../../services/cart/cart.storeItems';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FontAwesomeModule, AsyncPipe],
+  imports: [FontAwesomeModule, AsyncPipe, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -31,7 +32,8 @@ export class HeaderComponent {
 
   constructor(
     public categoryStore: CategoriesStoreItem,
-    private router: Router
+    private router: Router,
+    public cartStoreItem: CartStoreItem
   ) {
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
