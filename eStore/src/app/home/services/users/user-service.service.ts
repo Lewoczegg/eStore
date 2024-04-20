@@ -7,6 +7,7 @@ import { User, UserDTO, loginToken } from '../../types/user.type';
   providedIn: 'root',
 })
 export class UserService {
+  private autoLogoutTimer: any;
   private isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(
     false
   );
@@ -14,7 +15,9 @@ export class UserService {
     <UserDTO>{}
   );
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.loadToken();
+  }
 
   get isUserAuthenticated(): boolean {
     return this.isAuthenticated.value;
@@ -39,8 +42,6 @@ export class UserService {
   }
 
   activateToken(token: loginToken): void {
-    console.log(token);
-
     localStorage.setItem('token', token.token);
     localStorage.setItem(
       'expiry',
@@ -55,5 +56,53 @@ export class UserService {
 
     this.isAuthenticated.next(true);
     this.loggedInUserInfo.next(token.userDTO);
+    this.setAutoLogout(token.expiresInSeconds * 1000);
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.isAuthenticated.next(false);
+    this.loggedInUserInfo.next(<UserDTO>{});
+    clearTimeout(this.autoLogoutTimer);
+  }
+
+  private setAutoLogout(duration: number): void {
+    this.autoLogoutTimer = setTimeout(() => {
+      this.logout();
+    }, duration);
+  }
+
+  loadToken(): void {
+    const token: string | null = localStorage.getItem('token');
+    const expiry: string | null = localStorage.getItem('expiry');
+    if (!token || !expiry) {
+      return;
+    } else {
+      const expiresIn: number =
+        new Date(expiry).getTime() - new Date().getTime();
+      if (expiresIn > 0) {
+        const firstName: string | null = localStorage.getItem('firstName');
+        const lastName: string | null = localStorage.getItem('lastName');
+        const address: string | null = localStorage.getItem('address');
+        const city: string | null = localStorage.getItem('city');
+        const state: string | null = localStorage.getItem('state');
+        const pin: string | null = localStorage.getItem('pin');
+
+        const user: UserDTO = {
+          firstName: firstName !== null ? firstName : '',
+          lastName: lastName !== null ? lastName : '',
+          address: address !== null ? address : '',
+          city: city !== null ? city : '',
+          state: state !== null ? state : '',
+          pin: pin !== null ? pin : '',
+        };
+
+        this.isAuthenticated.next(true);
+        this.loggedInUserInfo.next(user);
+        this.setAutoLogout(expiresIn);
+      } else {
+        this.logout();
+      }
+    }
   }
 }

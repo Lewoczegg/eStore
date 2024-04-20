@@ -71,6 +71,10 @@ export class HeaderComponent implements OnDestroy {
     this.router.navigate(['home/cart']);
   }
 
+  logout(): void {
+    this.userService.logout();
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
