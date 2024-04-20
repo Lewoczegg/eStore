@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CartStoreItem } from '../../services/cart/cart.storeItems';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { CartItem } from '../../types/cart.type';
+import { CartItem, DeliveryAddress } from '../../types/cart.type';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
@@ -15,6 +15,7 @@ import {
 import { UserService } from '../../services/users/user-service.service';
 import { UserDTO } from '../../types/user.type';
 import { Subscription } from 'rxjs';
+import { OrderService } from '../../services/order/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -35,12 +36,16 @@ export class CartComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
   user: UserDTO;
   subscriptions: Subscription = new Subscription();
+  alertType: number = 0;
+  alertMessage: string = '';
+  disableCheckout: boolean = false;
 
   constructor(
     public cartStoreItem: CartStoreItem,
     private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private orderService: OrderService
   ) {
     this.user = {
       firstName: '',
@@ -53,7 +58,7 @@ export class CartComponent implements OnInit, OnDestroy {
     };
 
     this.subscriptions.add(
-      userService.loggedInUser$.subscribe((loggedUser) => {
+      this.userService.loggedInUser$.subscribe((loggedUser) => {
         if (loggedUser.firstName) {
           this.user = loggedUser;
         }
@@ -90,7 +95,36 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartStoreItem.removeProduct(cartItem);
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    if (this.userService.isUserAuthenticated) {
+      const deliveryAddress: DeliveryAddress = {
+        userName: this.orderForm.get('name')?.value,
+        address: this.orderForm.get('address')?.value,
+        city: this.orderForm.get('city')?.value,
+        state: this.orderForm.get('state')?.value,
+        pin: this.orderForm.get('pin')?.value,
+      };
+      this.subscriptions.add(
+        this.orderService
+          .saveOrder(deliveryAddress, this.user.email)
+          .subscribe({
+            next: (result) => {
+              this.cartStoreItem.clearCart();
+              this.alertType = 0;
+              this.alertMessage = 'Order registered successfully';
+              this.disableCheckout = true;
+            },
+            error: (error) => {
+              this.alertType = 2;
+              this.alertMessage = 'Please log in to register your order.';
+            },
+          })
+      );
+    } else {
+      this.alertType = 1;
+      this.alertMessage = 'Please log in to register your order.';
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

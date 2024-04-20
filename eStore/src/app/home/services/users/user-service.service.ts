@@ -8,6 +8,8 @@ import { User, UserDTO, loginToken } from '../../types/user.type';
 })
 export class UserService {
   private autoLogoutTimer: any;
+  private authToken: string = '';
+
   private isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(
     false
   );
@@ -29,6 +31,10 @@ export class UserService {
 
   get loggedInUser$(): Observable<UserDTO> {
     return this.loggedInUserInfo.asObservable();
+  }
+
+  get token(): string {
+    return this.authToken;
   }
 
   createUser(user: User): Observable<any> {
@@ -58,6 +64,7 @@ export class UserService {
     this.isAuthenticated.next(true);
     this.loggedInUserInfo.next(token.userDTO);
     this.setAutoLogout(token.expiresInSeconds * 1000);
+    this.authToken = token.token;
   }
 
   logout(): void {
@@ -103,6 +110,7 @@ export class UserService {
         this.isAuthenticated.next(true);
         this.loggedInUserInfo.next(user);
         this.setAutoLogout(expiresIn);
+        this.authToken = token;
       } else {
         this.logout();
       }

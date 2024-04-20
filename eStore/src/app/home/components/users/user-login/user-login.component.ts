@@ -48,12 +48,13 @@ export class UserLoginComponent implements OnInit {
   onSubmit(): void {
     this.userService.login(this.email?.value, this.password?.value).subscribe({
       next: (result: loginToken) => {
+        result.userDTO.email = this.email?.value;
         this.userService.activateToken(result);
         this.alertType = 0;
         this.alertMessage = 'Login successful';
         setTimeout(() => {
           this.location.back();
-        }, 1000)
+        }, 1000);
       },
       error: (error) => {
         this.alertType = 1;
