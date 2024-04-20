@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   AbstractControl,
   FormBuilder,
@@ -25,7 +26,8 @@ export class UserLoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,9 @@ export class UserLoginComponent implements OnInit {
         this.userService.activateToken(result);
         this.alertType = 0;
         this.alertMessage = 'Login successful';
+        setTimeout(() => {
+          this.location.back();
+        }, 1000)
       },
       error: (error) => {
         this.alertType = 1;

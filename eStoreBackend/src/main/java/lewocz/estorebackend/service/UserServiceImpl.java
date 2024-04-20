@@ -1,10 +1,13 @@
 package lewocz.estorebackend.service;
 
 import lewocz.estorebackend.exception.DuplicateException;
+import lewocz.estorebackend.exception.NotFoundException;
 import lewocz.estorebackend.model.User;
 import lewocz.estorebackend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,5 +36,16 @@ public class UserServiceImpl implements UserService {
         newUser.setPin(user.getPin());
 
         userRepository.save(newUser);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isEmpty()) {
+            throw new NotFoundException("User with email " + email + " not found");
+        }
+
+        return user.get();
     }
 }

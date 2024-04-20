@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -11,6 +11,8 @@ import { filter } from 'rxjs';
 import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 import { SearchKeyword } from '../../types/searchKeyword.type';
 import { CartStoreItem } from '../../services/cart/cart.storeItems';
+import { UserService } from '../../services/users/user-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -19,11 +21,13 @@ import { CartStoreItem } from '../../services/cart/cart.storeItems';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   faSearch = faSearch;
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
-
+  subscriptions: Subscription = new Subscription();
+  isUserAuthenticated: boolean = false;
+  userName: string = '';
   displaySearch: boolean = true;
 
   @Output()
@@ -33,7 +37,8 @@ export class HeaderComponent {
   constructor(
     public categoryStore: CategoriesStoreItem,
     private router: Router,
-    public cartStoreItem: CartStoreItem
+    public cartStoreItem: CartStoreItem,
+    public userService: UserService
   ) {
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -41,6 +46,18 @@ export class HeaderComponent {
         this.displaySearch =
           (event as NavigationEnd).url === '/home/products' ? true : false;
       });
+
+    this.subscriptions.add(
+      this.userService.isUserAuthenticated$.subscribe((result) => {
+        this.isUserAuthenticated = result;
+      })
+    );
+
+    this.subscriptions.add(
+      this.userService.loggedInUser$.subscribe((result) => {
+        this.userName = result.firstName;
+      })
+    );
   }
 
   onClickSearch(keyword: string, categoryId: string) {
@@ -52,5 +69,9 @@ export class HeaderComponent {
 
   navigateToCart(): void {
     this.router.navigate(['home/cart']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

@@ -3,6 +3,9 @@ package lewocz.estorebackend.controller;
 import jakarta.validation.Valid;
 import lewocz.estorebackend.dto.LoginRequest;
 import lewocz.estorebackend.dto.LoginResponse;
+import lewocz.estorebackend.dto.UserDTO;
+import lewocz.estorebackend.model.User;
+import lewocz.estorebackend.service.UserService;
 import lewocz.estorebackend.utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -30,7 +35,18 @@ public class AuthController {
         }
 
         Long seconds = 3600L;
+        User user = userService.getUserByEmail(request.email());
         String token = JwtUtil.generateToken(request.email(), seconds);
-        return ResponseEntity.ok(new LoginResponse(token, seconds));
+
+        UserDTO userDto = new UserDTO(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAddress(),
+                user.getCity(),
+                user.getState(),
+                user.getPin()
+        );
+
+        return ResponseEntity.ok(new LoginResponse(token, seconds, userDto));
     }
 }
