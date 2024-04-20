@@ -1,5 +1,6 @@
 package lewocz.estorebackend.service;
 
+import lewocz.estorebackend.exception.NotFoundException;
 import lewocz.estorebackend.model.Category;
 import lewocz.estorebackend.model.Product;
 import lewocz.estorebackend.repository.CategoryRepository;
@@ -35,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Category> category = categoryRepository.findById(mainCategoryId);
 
         if (category.isEmpty()) {
-            throw new IllegalArgumentException("Category with id " + mainCategoryId + " not found");
+            throw new NotFoundException("Category with id " + mainCategoryId + " not found");
         }
 
         return productRepository.findByCategoryParentCategoryId(mainCategoryId);
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Category> category = categoryRepository.findById(subCategoryId);
 
         if (category.isEmpty()) {
-            throw new IllegalArgumentException("Category with id " + subCategoryId + " not found");
+            throw new NotFoundException("Category with id " + subCategoryId + " not found");
         }
 
         return productRepository.findByCategory(category.get());
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Category> category = categoryRepository.findById(mainCategoryId);
 
         if (category.isEmpty()) {
-            throw new IllegalArgumentException("Category with id " + mainCategoryId + " not found");
+            throw new NotFoundException("Category with id " + mainCategoryId + " not found");
         }
 
         return productRepository.findByMainCategoryIdAndKeyword(mainCategoryId, keyword);
@@ -68,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Category> category = categoryRepository.findById(subCategoryId);
 
         if (category.isEmpty()) {
-            throw new IllegalArgumentException("Category with id " + subCategoryId + " not found");
+            throw new NotFoundException("Category with id " + subCategoryId + " not found");
         }
 
         return productRepository.findBySubCategoryIdAndKeyword(subCategoryId, keyword);
@@ -84,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> product = productRepository.findById(productId);
 
         if (product.isEmpty()) {
-            throw new IllegalArgumentException("Product with id " + productId + " not found");
+            throw new NotFoundException("Product with id " + productId + " not found");
         }
 
         return product.get();
