@@ -29,7 +29,8 @@ public class AuthController {
             throw e;
         }
 
-        String token = JwtUtil.generateToken(request.email());
-        return ResponseEntity.ok(new LoginResponse(token));
+        Long seconds = 3600L;
+        String token = JwtUtil.generateToken(request.email(), seconds);
+        return ResponseEntity.ok(new LoginResponse(token, seconds));
     }
 }

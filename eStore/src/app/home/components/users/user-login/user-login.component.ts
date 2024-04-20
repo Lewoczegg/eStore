@@ -7,17 +7,26 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../../services/users/user-service.service';
+import { loginToken } from '../../../types/user.type';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.scss',
 })
 export class UserLoginComponent implements OnInit {
   userLoginForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {}
+  alertType: number = 0;
+  alertMessage: string = '';
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.userLoginForm = this.formBuilder.group({
@@ -34,5 +43,17 @@ export class UserLoginComponent implements OnInit {
     return this.userLoginForm.get('password');
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this.userService.login(this.email?.value, this.password?.value).subscribe({
+      next: (result: loginToken) => {
+        this.userService.activateToken(result);
+        this.alertType = 0;
+        this.alertMessage = 'Login successful';
+      },
+      error: (error) => {
+        this.alertType = 1;
+        this.alertMessage = error.error.description;
+      },
+    });
+  }
 }

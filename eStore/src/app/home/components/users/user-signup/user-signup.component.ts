@@ -4,10 +4,9 @@ import {
   FormBuilder,
   FormGroup,
   AbstractControl,
-  Validator,
 } from '@angular/forms';
 import { matchPasswords } from './validators/match-passwords.validator';
-import { UserService } from '../services/user-service.service';
+import { UserService } from '../../../services/users/user-service.service';
 import { User } from '../../../types/user.type';
 import { CommonModule } from '@angular/common';
 
@@ -81,8 +80,6 @@ export class UserSignupComponent implements OnInit {
         this.alertType = 0;
       },
       error: (error) => {
-        console.log(error);
-
         this.alertMessage = error.error.description;
         this.alertType = 1;
       },
