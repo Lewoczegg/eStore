@@ -5,6 +5,7 @@ import { ProductsGalleryComponent } from './home/components/products-gallery/pro
 import { ProductdetailsComponent } from './home/components/productdetails/productdetails.component';
 import { CartComponent } from './home/components/cart/cart.component';
 import { UserSignupComponent } from './home/components/users/user-signup/user-signup.component';
+import { UserLoginComponent } from './home/components/users/user-login/user-login.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,7 @@ export const routes: Routes = [
       { path: 'product/:id', component: ProductdetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'signup', component: UserSignupComponent },
+      { path: 'login', component: UserLoginComponent },
     ],
   },
   { path: '', redirectTo: '/home/products', pathMatch: 'full' },
