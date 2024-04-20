@@ -6,6 +6,7 @@ public record UserDTO(
         String address,
         String city,
         String state,
-        String pin
+        String pin,
+        String email
 ) {
 }

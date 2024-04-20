@@ -53,6 +53,7 @@ export class UserService {
     localStorage.setItem('city', token.userDTO.city);
     localStorage.setItem('state', token.userDTO.state);
     localStorage.setItem('pin', token.userDTO.pin);
+    localStorage.setItem('email', token.userDTO.email);
 
     this.isAuthenticated.next(true);
     this.loggedInUserInfo.next(token.userDTO);
@@ -87,6 +88,7 @@ export class UserService {
         const city: string | null = localStorage.getItem('city');
         const state: string | null = localStorage.getItem('state');
         const pin: string | null = localStorage.getItem('pin');
+        const email: string | null = localStorage.getItem('email');
 
         const user: UserDTO = {
           firstName: firstName !== null ? firstName : '',
@@ -95,6 +97,7 @@ export class UserService {
           city: city !== null ? city : '',
           state: state !== null ? state : '',
           pin: pin !== null ? pin : '',
+          email: email !== null ? email : '',
         };
 
         this.isAuthenticated.next(true);

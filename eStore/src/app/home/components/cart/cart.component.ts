@@ -6,7 +6,12 @@ import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { RatingsComponent } from '../ratings/ratings.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../services/users/user-service.service';
 import { UserDTO } from '../../types/user.type';
 import { Subscription } from 'rxjs';
@@ -20,7 +25,7 @@ import { Subscription } from 'rxjs';
     AsyncPipe,
     CurrencyPipe,
     RatingsComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
@@ -44,6 +49,7 @@ export class CartComponent implements OnInit, OnDestroy {
       city: '',
       state: '',
       pin: '',
+      email: '',
     };
 
     this.subscriptions.add(

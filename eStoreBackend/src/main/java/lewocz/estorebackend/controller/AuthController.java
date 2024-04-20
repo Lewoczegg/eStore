@@ -44,7 +44,8 @@ public class AuthController {
                 user.getAddress(),
                 user.getCity(),
                 user.getState(),
-                user.getPin()
+                user.getPin(),
+                user.getEmail()
         );
 
         return ResponseEntity.ok(new LoginResponse(token, seconds, userDto));
