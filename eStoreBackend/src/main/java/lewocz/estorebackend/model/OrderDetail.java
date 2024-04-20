@@ -1,5 +1,6 @@
 package lewocz.estorebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,8 +11,9 @@ public class OrderDetail {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne
