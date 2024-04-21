@@ -2,7 +2,6 @@ package lewocz.estorebackend.controller;
 
 import lewocz.estorebackend.dto.AddOrderRequest;
 import lewocz.estorebackend.dto.ApiResponse;
-import lewocz.estorebackend.dto.GetAllOrdersRequest;
 import lewocz.estorebackend.dto.OrderDetailWithProductDTO;
 import lewocz.estorebackend.model.Order;
 import lewocz.estorebackend.service.OrderService;
@@ -32,14 +31,14 @@ public class OrderController {
     }
 
     @GetMapping("/getAll")
-    ResponseEntity<List<Order>> getAlOrders(@RequestBody GetAllOrdersRequest getAllOrdersRequest) {
-        List<Order> orders = orderService.getAllOrdersByEmail(getAllOrdersRequest.userEmail());
+    ResponseEntity<List<Order>> getAlOrders(@RequestParam String userEmail) {
+        List<Order> orders = orderService.getAllOrdersByEmail(userEmail);
 
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
-    @GetMapping("/get/{orderId}")
-    public ResponseEntity<List<OrderDetailWithProductDTO>> getOrderDetailsWithProductNameByOrderId(@PathVariable Integer orderId) {
+    @GetMapping("/get")
+    public ResponseEntity<List<OrderDetailWithProductDTO>> getOrderDetailsWithProductNameByOrderId(@RequestParam Integer orderId) {
         List<OrderDetailWithProductDTO> orderDetails = orderService.getOrderDetailsWithProductName(orderId);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderDetails);

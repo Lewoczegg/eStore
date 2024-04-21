@@ -80,7 +80,8 @@ public class OrderServiceImpl implements OrderService {
                     detail.getProduct().getProductName(),
                     detail.getQty(),
                     detail.getPrice(),
-                    detail.getAmount()
+                    detail.getAmount(),
+                    detail.getProduct().getProductImg()
             )
         ).collect(Collectors.toList());
 

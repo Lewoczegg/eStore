@@ -6,6 +6,7 @@ public record OrderDetailWithProductDTO(
         String productName,
         Integer qty,
         Integer price,
-        Integer amount
+        Integer amount,
+        String productImg
         ) {
 }
